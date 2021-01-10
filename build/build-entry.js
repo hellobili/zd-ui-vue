@@ -9,7 +9,6 @@ const OUTPUT_PATH = path.join(__dirname, '../src/index.js')
 const IMPORT_TEMPLATE = 'import {{name}} from \'../packages/{{package}}/index.js\''
 const INSTALL_COMPONENT_TEMPLATE = '  {{name}}'
 const MAIN_TEMPLATE = `/* */
-
 {{include}}
 
 const components = [

@@ -14,7 +14,7 @@ function resolve (dir) {
 }
 
 const path = require('path')
-// const fs = require('fs')
+const fs = require('fs')
 const fileSave = require('file-save')
 const uppercamelcase = require('uppercamelcase')
 const componentname = process.argv[2]
@@ -46,6 +46,22 @@ export default {
   }, {
     filename: path.join('../../examples/docs', `${componentname}.md`),
     content: `## ${ComponentName} ${chineseName}`
+  },
+  {
+    filename: path.join('../../packages/theme-chalk/src', `${componentname}.scss`),
+    content: `@import "mixins/mixins";
+@import "common/var";
+
+@include b(${componentname}) {
+}`
+  },
+  {
+    filename: path.join('../../types', `${componentname}.d.ts`),
+    content: `import { ZdUIComponent } from './component'
+
+/** ${ComponentName} Component */
+export declare class Zd${ComponentName} extends ZdUIComponent {
+}`
   }
   //   {
   //     filename: path.join('../../tests/unit/specs', `${componentname}.spec.js`),
@@ -77,6 +93,29 @@ if (componentsFile[componentname]) {
 componentsFile[componentname] = `./packages/${componentname}/index.js`
 fileSave(resolve('components.json'))
   .write(JSON.stringify(componentsFile, null, '   '), 'utf8')
+  .end('\n')
+
+// 添加到 index.scss
+const sassPath = path.join(__dirname, '../packages/theme-chalk/src/index.scss')
+const sassImportText = `${fs.readFileSync(sassPath)}@import "./${componentname}.scss";`
+fileSave(sassPath)
+  .write(sassImportText, 'utf8')
+  .end('\n')
+
+// 添加到 zd-ui.d.ts
+const elementTsPath = path.join(__dirname, '../types/zd-ui.d.ts')
+
+let elementTsText = `${fs.readFileSync(elementTsPath)}
+/** ${ComponentName} Component */
+export class ${ComponentName} extends Zd${ComponentName} {}`
+
+const index = elementTsText.indexOf('export') - 1
+const importString = `import { Zd${ComponentName} } from './${componentname}'`
+
+elementTsText = elementTsText.slice(0, index) + importString + '\n' + elementTsText.slice(index)
+
+fileSave(elementTsPath)
+  .write(elementTsText, 'utf8')
   .end('\n')
 
 // 创建package

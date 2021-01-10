@@ -3,16 +3,32 @@ function resolve (dir) {
   return path.join(__dirname, dir)
 }
 
+// const Components = require('./components.json')
+
 module.exports = {
-  publicPath: './',
-  outputDir: 'dist',
+  publicPath: process.env.NODE_ENV === 'development' ? './' : '/dist/',
+  outputDir: 'lib',
   // assetsDir: 'static',
   productionSourceMap: false,
   configureWebpack: {
+    // entry: process.env.NODE_ENV === 'production' ? Components : '',
     resolve: {
       alias: {
         main: resolve('src'),
         examples: resolve('examples')
+      }
+    },
+    output: {
+      filename: '[name].js',
+      chunkFilename: '[id].js',
+      libraryTarget: 'commonjs2'
+    },
+    externals: {
+      vue: {
+        root: 'Vue',
+        commonjs: 'vue',
+        commonjs2: 'vue',
+        amd: 'vue'
       }
     },
     performance: {
@@ -27,17 +43,14 @@ module.exports = {
       filename: 'index.html'
 
     }
+  },
+  chainWebpack: config => {
+    config.module
+      .rule('js')
+      .include
+      .add('/packages')
+      .end()
+      .use('babel')
+      .loader('babel-loader')
   }
-  // chainWebpack: config => {
-  //   config.module
-  //     .rules('js')
-  //     .include
-  //     .add(resolve('src'))
-  //     .end()
-  //     .use('babel')
-  //     .loader('babel-loader')
-  //     .tap(options => {
-  //       return options
-  //     })
-  // }
 }

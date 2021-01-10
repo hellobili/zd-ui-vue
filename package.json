@@ -7,10 +7,13 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:lib": "npm run build:files && vue-cli-service build --target lib --name zd-ui src/index.js",
+    "build:theme": "node build/gen-cssfile && gulp build --gulpfile packages/theme-chalk/gulpfile.js && cp-cli packages/theme-chalk/lib lib/theme-chalk",
+    "clean": "rimraf lib && rimraf packages/*/lib && rimraf test/**/coverage",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "lib": "vue-cli-service build --target lib --name zd-ui --dest lib src/index.js",
-    "build:files":"node build/build-entry.js"
+    "build:files": "node build/build-entry.js"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -27,6 +30,7 @@
     "@vue/test-utils": "^1.0.3",
     "babel-eslint": "^10.1.0",
     "chai": "^4.1.2",
+    "cp-cli": "^2.0.0",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
@@ -34,6 +38,10 @@
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.2.2",
     "file-save": "^0.2.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-cssmin": "^0.2.0",
+    "gulp-sass": "^4.1.0",
     "json-templater": "^1.2.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.2",
