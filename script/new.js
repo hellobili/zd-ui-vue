@@ -44,7 +44,7 @@ export default {
 }
 </script>`
   }, {
-    filename: path.join('../../examples/docs', `${componentname}.md`),
+    filename: path.join('../../docs/components/basic', `${componentname}.md`),
     content: `## ${ComponentName} ${chineseName}`
   },
   {
@@ -62,25 +62,25 @@ export default {
 /** ${ComponentName} Component */
 export declare class Zd${ComponentName} extends ZdUIComponent {
 }`
+  },
+  {
+    filename: path.join('../../tests/unit/specs', `${componentname}.spec.js`),
+    content: `import { createTest, destroyVM } from '../util';
+  import ${ComponentName} from 'packages/${componentname}';
+
+  describe('${ComponentName}', () => {
+    let vm;
+    afterEach(() => {
+      destroyVM(vm);
+    });
+
+  it('create', () => {
+    vm = createTest(${ComponentName}, true);
+    expect(vm.$el).to.exist;
+  });
+});
+    `
   }
-  //   {
-  //     filename: path.join('../../tests/unit/specs', `${componentname}.spec.js`),
-  //     content: `import { createTest, destroyVM } from '../util';
-  // import ${ComponentName} from 'packages/${componentname}';
-
-  // describe('${ComponentName}', () => {
-  //   let vm;
-  //   afterEach(() => {
-  //     destroyVM(vm);
-  //   });
-
-//   it('create', () => {
-//     vm = createTest(${ComponentName}, true);
-//     expect(vm.$el).to.exist;
-//   });
-// });
-//     `
-//   }
 ]
 
 // 添加到 components.json
@@ -116,6 +116,17 @@ elementTsText = elementTsText.slice(0, index) + importString + '\n' + elementTsT
 
 fileSave(elementTsPath)
   .write(elementTsText, 'utf8')
+  .end('\n')
+
+// 添加到 .vuepress/config.js
+const navConfigFile = require('../docs/.vuepress/config.js')
+
+navConfigFile.themeConfig.sidebar['/components/'][1].children.push('basic/' + componentname)
+
+const navTemp = 'module.exports = ' + JSON.stringify(navConfigFile, null, '  ')
+
+fileSave(path.join(__dirname, '../docs/.vuepress/config.js'))
+  .write(navTemp, 'utf8')
   .end('\n')
 
 // 创建package

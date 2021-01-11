@@ -1,77 +1,81 @@
 {
   "name": "zd-ui-vue",
   "version": "0.1.0",
-  "description": "",
+  "description": "A Component Library for Vue.js.",
   "main": "lib/zd-ui.common.js",
-  "private": true,
+  "files": [
+    "lib",
+    "src",
+    "packages",
+    "types"
+  ],
+  "private": false,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "build:lib": "npm run build:files && vue-cli-service build --target lib --name zd-ui src/index.js",
-    "build:theme": "node build/gen-cssfile && gulp build --gulpfile packages/theme-chalk/gulpfile.js && cp-cli packages/theme-chalk/lib lib/theme-chalk",
-    "clean": "rimraf lib && rimraf packages/*/lib && rimraf test/**/coverage",
-    "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint",
-    "lib": "vue-cli-service build --target lib --name zd-ui --dest lib src/index.js",
-    "build:files": "node build/build-entry.js"
+    "bootstrap": "yarn || npm i",
+    "dev": "npm run bootstrap && vuepress dev docs",
+    "docs:build": "vuepress build docs",
+    "deploy": "gh-pages -d docs/.vuepress/dist",
+    "deploy:build": "npm run docs:build && npm run deploy",
+    "lint": "vue-cli-service lint src/* packages/* tests/*",
+    "build:file": "node script/build-entry.js",
+    "build:theme": "node script/gen-cssfile && gulp build --gulpfile packages/theme-chalk/gulpfile.js && cp-cli packages/theme-chalk/lib lib/theme-chalk",
+    "clean": "rimraf lib && rimraf packages/*/lib && rimraf tests/**/coverage",
+    "dist": "npm run clean && npm run build:file && npm run lint && webpack --config build/webpack.conf.js && webpack --config build/webpack.common.js && webpack --config build/webpack.component.js  && npm run build:theme ",
+    "test": "npm run lint && npm run build:theme && npm run build:file && cross-env CI_ENV=/dev/ BABEL_ENV=test karma start tests/unit/karma.conf.js --single-run",
+    "pub": "npm publish"
   },
-  "dependencies": {
+  "peerDependencies": {
     "core-js": "^3.6.5",
-    "vue": "^2.6.11",
-    "vue-router": "^3.2.0"
+    "vue": "^2.6.12"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.0",
-    "@vue/cli-plugin-eslint": "^4.5.0",
+    "@vue/cli-plugin-eslint": "^4.5.10",
     "@vue/cli-plugin-router": "^4.5.0",
     "@vue/cli-plugin-unit-mocha": "^4.5.0",
     "@vue/cli-service": "^4.5.0",
     "@vue/eslint-config-standard": "^5.1.2",
-    "@vue/test-utils": "^1.0.3",
     "babel-eslint": "^10.1.0",
+    "babel-plugin-istanbul": "^6.0.0",
+    "babel-regenerator-runtime": "^6.5.0",
     "chai": "^4.1.2",
     "cp-cli": "^2.0.0",
-    "eslint": "^6.7.2",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.17.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^6.2.2",
+    "eslint-plugin-vue": "^7.4.1",
     "file-save": "^0.2.0",
+    "gh-pages": "^3.1.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-cssmin": "^0.2.0",
     "gulp-sass": "^4.1.0",
     "json-templater": "^1.2.0",
+    "karma": "^5.2.3",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "^2.0.3",
+    "karma-mocha": "^2.0.1",
+    "karma-sinon-chai": "^2.0.2",
+    "karma-sourcemap-loader": "^0.3.8",
+    "karma-spec-reporter": "^0.0.32",
+    "karma-webpack": "^4.0.2",
     "node-sass": "^4.12.0",
+    "progress-bar-webpack-plugin": "^2.1.0",
+    "rimraf": "^3.0.2",
     "sass-loader": "^8.0.2",
+    "sinon": "^9.2.3",
+    "sinon-chai": "^3.5.0",
+    "style-loader": "^2.0.0",
+    "terser-webpack-plugin": "^5.1.1",
     "uppercamelcase": "^3.0.0",
-    "vue-template-compiler": "^2.6.11"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "@vue/standard"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {},
-    "overrides": [
-      {
-        "files": [
-          "**/__tests__/*.{j,t}s?(x)",
-          "**/tests/unit/**/*.spec.{j,t}s?(x)"
-        ],
-        "env": {
-          "mocha": true
-        }
-      }
-    ]
+    "vue": "^2.6.12",
+    "vue-template-compiler": "^2.6.11",
+    "vuepress": "^1.8.0",
+    "webpack-cli": "^4.3.1",
+    "webpack-node-externals": "^2.5.2"
   },
   "browserslist": [
     "> 1%",
