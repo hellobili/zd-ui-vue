@@ -1,17 +1,31 @@
 {
   "name": "zd-ui-vue",
   "version": "0.1.0",
-  "private": true,
+  "description": "A Component Library for Vue.js.",
+  "main": "lib/zd-ui.common.js",
+  "files": [
+    "lib",
+    "src",
+    "packages",
+    "types"
+  ],
+  "private": false,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "bootstrap":"yarn || npm i",
+    "dev": "npm run bootstrap && vuepress dev docs",
+    "docs:build": "vuepress build docs",
+    "deploy": "gh-pages -d docs/.vuepress/dist",
+    "deploy:build": "npm run docs:build && npm run deploy",
+    "build:files": "node script/build-entry.js",
+    "build:theme": "node script/gen-cssfile && gulp build --gulpfile packages/theme-chalk/gulpfile.js && cp-cli packages/theme-chalk/lib lib/theme-chalk",
+    "clean": "rimraf lib && rimraf packages/*/lib && rimraf test/**/coverage",
+    "dist": "npm run clean && npm run build:files && webpack --config build/webpack.conf.js && webpack --config build/webpack.common.js && webpack --config build/webpack.component.js  && npm run build:theme ",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "pub": "npm publish"
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "vue": "^2.6.11",
-    "vue-router": "^3.2.0"
+    "vue": "^2.6.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.0",
@@ -23,15 +37,29 @@
     "@vue/test-utils": "^1.0.3",
     "babel-eslint": "^10.1.0",
     "chai": "^4.1.2",
+    "cp-cli": "^2.0.0",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.2.2",
+    "file-save": "^0.2.0",
+    "gh-pages": "^3.1.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-cssmin": "^0.2.0",
+    "gulp-sass": "^4.1.0",
+    "json-templater": "^1.2.0",
     "node-sass": "^4.12.0",
+    "progress-bar-webpack-plugin": "^2.1.0",
     "sass-loader": "^8.0.2",
-    "vue-template-compiler": "^2.6.11"
+    "terser-webpack-plugin": "^5.1.1",
+    "uppercamelcase": "^3.0.0",
+    "vue-template-compiler": "^2.6.11",
+    "vuepress": "^1.8.0",
+    "webpack-cli": "^4.3.1",
+    "webpack-node-externals": "^2.5.2"
   },
   "eslintConfig": {
     "root": true,
