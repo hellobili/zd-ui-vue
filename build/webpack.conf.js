@@ -25,7 +25,8 @@ module.exports = {
     alias: config.alias
   },
   externals: {
-    vue: config.vue
+    vue: config.vue,
+    'element-ui': 'element-ui'
   },
   optimization: {
     minimize: true

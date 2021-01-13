@@ -2,6 +2,7 @@ module.exports = {
   "title": "ZD-UI",
   "description": "A Component Library for Vue.js.",
   "port": "8085",
+  "plugins": ['demo-container'],
   "themeConfig": {
     "nav": [
       {
@@ -28,7 +29,7 @@ module.exports = {
           "title": "基础组件",
           "collapsable": false,
           "children": [
-            
+            "basic/tree"
           ]
         }
       ]
