@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { ZdUIComponent, ZdUIComponentSize, ZdUIHorizontalAlignment } from './component'
+import { ZdDemo } from './demo'
 
 export interface InstallationOptions {
   size: string
@@ -24,3 +25,6 @@ export type ComponentSize = ZdUIComponentSize
 /** Horizontal alignment */
 export type HorizontalAlignment = ZdUIHorizontalAlignment
 
+
+/** Demo Component */
+export class Demo extends ZdDemo {}
