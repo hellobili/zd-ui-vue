@@ -4,7 +4,18 @@ module.exports = {
   ],
   env: {
     test: {
-      plugins: ['istanbul']
+      plugins: [
+        'istanbul'
+      ]
     }
-  }
+  },
+  plugins: [
+    [
+      'component',
+      {
+        libraryName: 'element-ui',
+        styleLibraryName: 'theme-chalk'
+      }
+    ]
+  ]
 }

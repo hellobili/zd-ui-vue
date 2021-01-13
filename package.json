@@ -1,7 +1,22 @@
 {
   "name": "zd-ui-vue",
   "version": "0.1.0",
+  "private": false,
   "description": "A Component Library for Vue.js.",
+  "scripts": {
+    "lint": "vue-cli-service lint src/* packages/* tests/*",
+    "deploy": "gh-pages -d docs/.vuepress/dist",
+    "bootstrap": "yarn || npm i",
+    "build:file": "node script/build-entry.js",
+    "build:theme": "node script/gen-cssfile && gulp build --gulpfile packages/theme-chalk/gulpfile.js && cp-cli packages/theme-chalk/lib lib/theme-chalk",
+    "clean": "rimraf lib && rimraf packages/*/lib && rimraf tests/**/coverage",
+    "deploy:build": "npm run docs:build && npm run deploy",
+    "dev": "npm run bootstrap && vuepress dev docs",
+    "dist": "npm run clean && npm run build:file && npm run lint && webpack --config build/webpack.conf.js && webpack --config build/webpack.common.js && webpack --config build/webpack.component.js  && npm run build:theme ",
+    "docs:build": "vuepress build docs",
+    "pub": "npm publish",
+    "test": "npm run lint && npm run build:theme && npm run build:file && cross-env CI_ENV=/dev/ BABEL_ENV=test karma start tests/unit/karma.conf.js --single-run"
+  },
   "main": "lib/zd-ui.common.js",
   "files": [
     "lib",
@@ -9,25 +24,6 @@
     "packages",
     "types"
   ],
-  "private": false,
-  "scripts": {
-    "bootstrap": "yarn || npm i",
-    "dev": "npm run bootstrap && vuepress dev docs",
-    "docs:build": "vuepress build docs",
-    "deploy": "gh-pages -d docs/.vuepress/dist",
-    "deploy:build": "npm run docs:build && npm run deploy",
-    "lint": "vue-cli-service lint src/* packages/* tests/*",
-    "build:file": "node script/build-entry.js",
-    "build:theme": "node script/gen-cssfile && gulp build --gulpfile packages/theme-chalk/gulpfile.js && cp-cli packages/theme-chalk/lib lib/theme-chalk",
-    "clean": "rimraf lib && rimraf packages/*/lib && rimraf tests/**/coverage",
-    "dist": "npm run clean && npm run build:file && npm run lint && webpack --config build/webpack.conf.js && webpack --config build/webpack.common.js && webpack --config build/webpack.component.js  && npm run build:theme ",
-    "test": "npm run lint && npm run build:theme && npm run build:file && cross-env CI_ENV=/dev/ BABEL_ENV=test karma start tests/unit/karma.conf.js --single-run",
-    "pub": "npm publish"
-  },
-  "peerDependencies": {
-    "core-js": "^3.6.5",
-    "vue": "^2.6.12"
-  },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.0",
     "@vue/cli-plugin-eslint": "^4.5.10",
@@ -36,6 +32,7 @@
     "@vue/cli-service": "^4.5.0",
     "@vue/eslint-config-standard": "^5.1.2",
     "babel-eslint": "^10.1.0",
+    "babel-plugin-component": "^1.1.1",
     "babel-plugin-istanbul": "^6.0.0",
     "babel-regenerator-runtime": "^6.5.0",
     "chai": "^4.1.2",
@@ -72,10 +69,16 @@
     "terser-webpack-plugin": "^5.1.1",
     "uppercamelcase": "^3.0.0",
     "vue": "^2.6.12",
+    "vue-cli-plugin-element": "~1.0.1",
     "vue-template-compiler": "^2.6.11",
     "vuepress": "^1.8.0",
     "webpack-cli": "^4.3.1",
     "webpack-node-externals": "^2.5.2"
+  },
+  "peerDependencies": {
+    "core-js": "^3.6.5",
+    "vue": "^2.6.12",
+    "element-ui": "^2.4.5"
   },
   "browserslist": [
     "> 1%",
