@@ -45,7 +45,7 @@ export default {
 </script>`
   }, {
     filename: path.join('../../docs/components/basic', `${componentname}.md`),
-    content: `## ${ComponentName} ${chineseName}`
+    content: `# ${ComponentName} ${chineseName}`
   },
   {
     filename: path.join('../../packages/theme-chalk/src', `${componentname}.scss`),

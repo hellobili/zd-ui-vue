@@ -81,7 +81,7 @@
   },
   "dependencies": {
     "async-validator": "1.11.5",
-    "core-js": "3.6.5"
+    "core-js": "^3.8.2"
   },
   "peerDependencies": {
     "element-ui": "^2.14.1",
