@@ -17,7 +17,7 @@
     "pub": "npm publish",
     "test": "npm run lint && npm run build:theme && npm run build:file && cross-env CI_ENV=/dev/ BABEL_ENV=test karma start tests/unit/karma.conf.js --single-run"
   },
-  "main": "lib/zd-ui.common.js",
+  "main": "lib/zd-ui-vue.common.js",
   "files": [
     "lib",
     "src",
