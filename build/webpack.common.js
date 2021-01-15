@@ -12,7 +12,7 @@ module.exports = {
   output: {
     path: path.resolve(process.cwd(), './lib'),
     publicPath: '/lib/',
-    filename: 'zd-ui-vue.common.js',
+    filename: `${config.npmName}.common.js`,
     chunkFilename: '[id].js',
     libraryExport: 'default',
     library: 'ZD',

@@ -17,6 +17,7 @@ const path = require('path')
 const fs = require('fs')
 const fileSave = require('file-save')
 const uppercamelcase = require('uppercamelcase')
+const { name: npmName } = require('../package.json')
 const componentname = process.argv[2]
 const chineseName = process.argv[3] || componentname
 const ComponentName = uppercamelcase(componentname)
@@ -102,8 +103,8 @@ fileSave(sassPath)
   .write(sassImportText, 'utf8')
   .end('\n')
 
-// 添加到 zd-ui.d.ts
-const elementTsPath = path.join(__dirname, '../types/zd-ui.d.ts')
+// 添加到 [npmName].d.ts  需要修改文件名为<npmName>
+const elementTsPath = path.join(__dirname, `../types/${npmName}.d.ts`)
 
 let elementTsText = `${fs.readFileSync(elementTsPath)}
 /** ${ComponentName} Component */

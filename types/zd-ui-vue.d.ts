@@ -6,11 +6,11 @@ export interface InstallationOptions {
   size: string
 }
 
-/** The version of zd-ui */
+/** The version of libs */
 export const version: string
 
 /**
- * Install all zd-ui components into Vue.
+ * Install all libs components into Vue.
  * Please do not invoke this method directly.
  * Call `Vue.use(ZdUI)` to install.
  */
